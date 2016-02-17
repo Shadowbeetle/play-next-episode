@@ -4,37 +4,31 @@ import re
 import sys
 import yaml
 import pymsgbox
+from utils import get_path
 
 with open('./setup.yml') as setup_file:
     setup = yaml.load(setup_file)
+
 path = setup["path"] if setup["path"].endswith('/') else setup["path"] + '/'
 name = setup["name"]
 next_episode = setup["next_episode"]
 audio_language = setup["audio_language"]
 sub_language = setup["sub_language"] if "sub_language" in setup.keys() else False
+exclude = setup["exclude"] if "exclude" in setup.keys() else False
 
 folder_pattern = re.compile(name.replace(' ', r'[\s_\-\.]?'), flags=re.IGNORECASE)
 
 ignored_file_extensions = {'.nfo', ''}
 
-try:
-    path += filter(lambda s: folder_pattern.search(s), os.listdir(path))[0]
-except IndexError:
-    pymsgbox.alert('Could not find any matching folder in\n\n%s\n\nfor\n\n%s' % (path, folder_pattern.pattern))
-    sys.exit(1)
-
-file_list = map(os.path.splitext, sorted(os.listdir(path)))
-episode_name_tuples = filter(lambda t: t[1] not in ignored_file_extensions, file_list)
-episodes = map(lambda t: t[0] + t[1], episode_name_tuples)
-
-path += '/' + episodes[next_episode - 1]
+path, next_episode = get_path(path, folder_pattern, exclude, ignored_file_extensions, next_episode, 0)
 
 response = pymsgbox.confirm('Are you sure you want to play the next episode of %s' % name)
 
 if response == 'Cancel':
     sys.exit(0)
 
-setup["next_episode"] += 1
+setup["next_episode"] = next_episode + 1
+setup["exclude"] = exclude
 
 with open('./setup.yml', 'w') as setup_file:
     yaml.dump(setup, setup_file, default_flow_style=False)
