@@ -2,44 +2,66 @@
 import os
 import re
 import sys
+import time
 import yaml
 import pymsgbox
 import subprocess
+from tail import tail_f
 from utils import get_path
 
-with open('./setup.yml') as setup_file:
-    setup = yaml.load(setup_file)
 
-path = setup["path"] if setup["path"].endswith('/') else setup["path"] + '/'
-name = setup["name"]
-next_episode = setup["next_episode"]
-audio_language = setup["audio_language"]
-sub_language = setup["sub_language"] if "sub_language" in setup.keys() else False
-exclude = setup["exclude"] if "exclude" in setup.keys() else False
+def main(should_ask=True):
+    with open('./setup.yml') as setup_file:
+        setup = yaml.load(setup_file)
 
-folder_pattern = re.compile(name.replace(' ', r'[\s_\-\.]?'), flags=re.IGNORECASE)
+    try:
+        os.remove('./vlc.log')
+    except OSError:
+        pass
 
-ignored_file_extensions = {'.nfo', ''}
+    path = setup["path"] if setup["path"].endswith('/') else setup["path"] + '/'
+    name = setup["name"]
+    next_episode = setup["next_episode"]
+    audio_language = setup["audio_language"]
+    sub_language = setup["sub_language"] if "sub_language" in setup.keys() else False
+    exclude = setup["exclude"] if "exclude" in setup.keys() else False
 
-path, next_episode = get_path(path, folder_pattern, exclude, ignored_file_extensions, next_episode, 0)
+    folder_pattern = re.compile(name.replace(' ', r'[\s_\-\.]?'), flags=re.IGNORECASE)
 
-response = pymsgbox.confirm('Are you sure you want to play the next episode of %s' % name)
+    ignored_file_extensions = {'.nfo', ''}
 
-if response == 'Cancel':
-    sys.exit(0)
+    path, next_episode = get_path(path, folder_pattern, exclude, ignored_file_extensions, next_episode, 0)
 
-setup["next_episode"] = next_episode + 1
-setup["exclude"] = exclude
+    if should_ask:
+        response = pymsgbox.confirm('Are you sure you want to play the next episode of %s' % name)
 
-with open('./setup.yml', 'w') as setup_file:
-    yaml.dump(setup, setup_file, default_flow_style=False)
+        if response == 'Cancel':
+            sys.exit(0)
 
-audio_language_switch = '' if not audio_language else '--audio-language=%s' % audio_language
-sub_language_switch = '' if not sub_language else '--sub-language=%s' % sub_language
-command = ['vlc', '-f', audio_language_switch, sub_language_switch, "--verbose=2", "--file-logging", "--logfile=/home/nazgul/Prog/Home/PlayNextEpisode/vlc.log", "%s" % path]
-process = subprocess.Popen(command)
+    setup["next_episode"] = next_episode + 1
+    setup["exclude"] = exclude
 
-with open('./pid', 'w') as pid_file:
-    pid_file.write(str(process.pid))
+    with open('./setup.yml', 'w') as setup_file:
+        yaml.dump(setup, setup_file, default_flow_style=False)
 
-sys.exit(0)
+    audio_language_switch = '' if not audio_language else '--audio-language=%s' % audio_language
+    sub_language_switch = '' if not sub_language else '--sub-language=%s' % sub_language
+    command = ['vlc', '-f', audio_language_switch, sub_language_switch, "--verbose=2", "--file-logging",
+               "--logfile=/home/nazgul/Prog/Home/PlayNextEpisode/vlc.log", "%s" % path]
+    process = subprocess.Popen(command)
+    pid = process.pid
+
+    time.sleep(1)  # wait for the logfile to be created
+
+    pressed_next = 'starting playback of the new playlist item'
+    closed = '-- logger module stopped --'
+
+    with open('./vlc.log') as log:
+        for line in tail_f(log):
+            if re.search(pressed_next, line):
+                process.kill()
+                main(False)
+            if re.search(closed, line):
+                sys.exit(0)
+
+main()
