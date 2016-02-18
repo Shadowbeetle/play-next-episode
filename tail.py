@@ -28,16 +28,3 @@ def _tail_f(input_file):
 def tail_f(input_file):
     input_file.seek(0, 2)
     return _tail_f(input_file)
-
-def main():
-    p = OptionParser("usage: tail.py file")
-    (options, args) = p.parse_args()
-    if len(args) < 1:
-        p.error("must specify a file to watch")
-    with open(args[0], 'r') as fin:
-        for line in tail(fin):
-            print line.strip()
-
-
-if __name__ == '__main__':
-    main()
