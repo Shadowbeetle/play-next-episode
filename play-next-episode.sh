@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 cd /home/nazgul/Prog/Home/PlayNextEpisode/
+
 rm vlc.log pid
 
 python play_next_episode.py

@@ -1,1 +1,5 @@
 setup.yml
+*.log
+pid
+*.pyc
+.idea
