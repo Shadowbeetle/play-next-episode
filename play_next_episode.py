@@ -4,6 +4,7 @@ import re
 import sys
 import yaml
 import pymsgbox
+import subprocess
 from utils import get_path
 
 with open('./setup.yml') as setup_file:
@@ -35,8 +36,10 @@ with open('./setup.yml', 'w') as setup_file:
 
 audio_language_switch = '' if not audio_language else '--audio-language=%s' % audio_language
 sub_language_switch = '' if not sub_language else '--sub-language=%s' % sub_language
-command = 'vlc -f %s %s "%s" &' % (audio_language_switch, sub_language_switch, path)
-os.system(command)
+command = ['vlc', '-f', audio_language_switch, sub_language_switch, "--verbose=2", "--file-logging", "--logfile=/home/nazgul/Prog/Home/PlayNextEpisode/vlc.log", "%s" % path]
+process = subprocess.Popen(command)
 
+with open('./pid', 'w') as pid_file:
+    pid_file.write(str(process.pid))
 
 sys.exit(0)
