@@ -26,5 +26,6 @@ def _tail_f(input_file):
             yield line
 
 def tail_f(input_file):
+    # jump straight to last line
     input_file.seek(0, 2)
     return _tail_f(input_file)
