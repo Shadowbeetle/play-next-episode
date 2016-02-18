@@ -49,7 +49,6 @@ def main(should_ask=True):
     command = ['vlc', '-f', audio_language_switch, sub_language_switch, "--verbose=2", "--file-logging",
                "--logfile=/home/nazgul/Prog/Home/PlayNextEpisode/vlc.log", "%s" % path]
     process = subprocess.Popen(command)
-    pid = process.pid
 
     time.sleep(1)  # wait for the logfile to be created
 
