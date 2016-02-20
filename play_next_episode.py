@@ -11,6 +11,8 @@ from utils import get_path
 
 
 def main(should_ask=True):
+    log_reading_timeout = 3
+
     with open('./setup.yml') as setup_file:
         setup = yaml.load(setup_file)
 
@@ -50,7 +52,7 @@ def main(should_ask=True):
                "--logfile=/home/nazgul/Prog/Home/PlayNextEpisode/vlc.log", "%s" % path]
     process = subprocess.Popen(command)
 
-    time.sleep(1)  # wait for the logfile to be created
+    time.sleep(log_reading_timeout)  # wait for the logfile to be created
 
     pressed_next = 'starting playback of the new playlist item'
     closed = '-- logger module stopped --'
