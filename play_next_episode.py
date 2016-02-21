@@ -10,8 +10,8 @@ from tail import tail_f
 from utils import get_path
 
 
-def main(should_ask=True):
-    log_reading_timeout = 3
+def main(should_ask=True, play_previous=False):
+    log_reading_timeout = 1
 
     with open('./setup.yml') as setup_file:
         setup = yaml.load(setup_file)
@@ -23,7 +23,7 @@ def main(should_ask=True):
 
     path = setup["path"] if setup["path"].endswith('/') else setup["path"] + '/'
     name = setup["name"]
-    next_episode = setup["next_episode"]
+    next_episode = setup["next_episode"] if not play_previous else setup["next_episode"] - 2
     audio_language = setup["audio_language"]
     sub_language = setup["sub_language"] if "sub_language" in setup.keys() else False
     exclude = setup["exclude"] if "exclude" in setup.keys() else False
@@ -54,7 +54,8 @@ def main(should_ask=True):
 
     time.sleep(log_reading_timeout)  # wait for the logfile to be created
 
-    pressed_next = 'starting playback of the new playlist item'
+    pressed_next = 'node: Playlist, skip: 1'
+    pressed_prev = 'node: Playlist, skip: -1'
     closed = '-- logger module stopped --'
 
     with open('./vlc.log') as log:
@@ -62,7 +63,10 @@ def main(should_ask=True):
             if re.search(pressed_next, line):
                 process.kill()
                 main(False)
-            if re.search(closed, line):
+            elif re.search(pressed_prev, line):
+                process.kill()
+                main(False, True)
+            elif re.search(closed, line):
                 sys.exit(0)
 
 main()
