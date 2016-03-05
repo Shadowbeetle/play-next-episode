@@ -3,7 +3,7 @@ import pymsgbox
 import sys
 
 def get_path_with_folder(dir_list, pattern, exclude, index):
-    folder = filter(lambda s: pattern.search(s), dir_list)[index]
+    folder = filter(lambda s: pattern.search(s), sorted(dir_list))[index]
     if folder in exclude:
         return get_path_with_folder(dir_list, pattern, exclude, index + 1)
     return folder

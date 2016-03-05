@@ -30,7 +30,7 @@ def main(should_ask=True, play_previous=False):
 
     folder_pattern = re.compile(name.replace(' ', r'[\s_\-\.]?'), flags=re.IGNORECASE)
 
-    ignored_file_extensions = {'.nfo', ''}
+    ignored_file_extensions = {'.nfo', '', '.srt', '.torrent'}
 
     path, next_episode = get_path(path, folder_pattern, exclude, ignored_file_extensions, next_episode, 0)
 
