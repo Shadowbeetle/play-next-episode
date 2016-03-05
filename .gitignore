@@ -3,4 +3,4 @@ setup.yml*
 pid
 *.pyc
 .idea
-vlc.sh
+*.sh
