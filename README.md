@@ -28,7 +28,7 @@ These can be omitted completely
 **sub_language**: if you wish to watch the movie with subtitles
 
 both of them use the 2 letters abbreviations such as 'en', 'es', 'de' 'fr', 'hu', 'hr'. If none of them is specified, vlc's
-default settings are applied. External subtitle files are not taken into account by the script!
+default settings are applied. If only one subtitle file is present next to a single video file, it will be used.
 
 ## Controlling what to play next
 

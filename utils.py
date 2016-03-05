@@ -10,10 +10,15 @@ def get_path_with_folder(dir_list, pattern, exclude, index):
     return folder
 
 
+def get_suitable_files(file_list, accepted_file_extensions):
+    file_list = map(os.path.splitext, file_list)
+    filename_tuples = filter(lambda t: t[1] in accepted_file_extensions, file_list)
+    filenames = map(lambda t: t[0] + t[1], filename_tuples)
+    return filenames
+
+
 def get_next_file(path, accepted_file_extensions, next_episode):
-    file_list = map(os.path.splitext, sorted(os.listdir(path)))
-    episode_name_tuples = filter(lambda t: t[1] in accepted_file_extensions, file_list)
-    episodes = map(lambda t: t[0] + t[1], episode_name_tuples)
+    episodes = get_suitable_files(sorted(os.listdir(path)), accepted_file_extensions)
     episode_file = episodes[next_episode - 1]
     return episode_file
 
@@ -32,4 +37,11 @@ def get_path(path, folder_pattern, exclude, accepted_file_extensions, next_episo
         exclude.append(folder)
         return get_path(path, folder_pattern, exclude, accepted_file_extensions, 1, index + 1)
 
-    return path_with_folder + '/' + next_file, next_episode
+    return path_with_folder + '/', next_file, next_episode
+
+
+def search_for_subtitle_files(path, video_name, accepted_file_extensions):
+    video_name = os.path.splitext(video_name)
+    file_list = get_suitable_files(os.listdir(path), accepted_file_extensions)
+    filtered_file_list = filter(lambda s: os.path.splitext(s) != video_name, file_list)
+    return sorted(filtered_file_list)
