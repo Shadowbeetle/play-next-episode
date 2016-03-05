@@ -69,4 +69,5 @@ def main(should_ask=True, play_previous=False):
             elif re.search(closed, line):
                 sys.exit(0)
 
+
 main()
