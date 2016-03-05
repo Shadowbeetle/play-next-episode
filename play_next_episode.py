@@ -70,5 +70,4 @@ def main(should_ask=True, play_previous=False):
                 sys.exit(0)
 
 
-
 main()
