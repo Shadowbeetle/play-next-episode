@@ -1,5 +1,7 @@
 This little script will play your favorite series episode after episode using vlc media player.
 
+**depends on pymsgbox**
+
 # Setup
 
 Place the script files wherever you want. Create a file named 'setup.yml' in the script's directory and make sure you have a link to the setup file in a convenient place. 
