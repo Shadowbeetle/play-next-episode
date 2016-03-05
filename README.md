@@ -39,4 +39,4 @@ If you have each episode in different folder, you will need to add those you hav
 # Contributions
 
 All contributions are welcome. If you are a Windows user and would like to add a bat or cmd file to make calling the script
-easier, go ahaed and create a pull request!
+easier, go ahead and create a pull request!
