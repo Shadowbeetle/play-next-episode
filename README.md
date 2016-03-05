@@ -19,11 +19,12 @@ different fodler the script will find it, and log which episodes have been playe
 You can use vlc's next button to jump to the next episode as well (previous only works if each episode in a season is in the same 
 folder)
 
-## Other  fieds:
+## Other  fieds
 
 These can be omitted completely
 
 **audio_language**: the language you wish to play the movie in
+
 **sub_language**: if you wish to watch the movie with subtitles
 
 both of them use the 2 letters abbreviatons sush as 'en', 'es', 'de' 'fr', 'hu', 'hr'. If none of them is specified, vlc's 
@@ -32,6 +33,7 @@ default settings are applied.
 ## Controlling what to play next
 
 **next_episode**: you can specify the number of the next episode, if you have your series organized by episodes
+
 **exclude**: these folders will be omitted while searching for the next episode
 
 If you have each episode in different folder, you will need to add those you have already watched to "exclude". If you have 
