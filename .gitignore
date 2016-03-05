@@ -1,4 +1,4 @@
-setup.yml
+setup.yml*
 *.log
 pid
 *.pyc
