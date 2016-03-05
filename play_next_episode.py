@@ -30,9 +30,12 @@ def main(should_ask=True, play_previous=False):
 
     folder_pattern = re.compile(name.replace(' ', r'[\s_\-\.]?'), flags=re.IGNORECASE)
 
-    ignored_file_extensions = {'.nfo', '', '.srt', '.torrent'}
+    subtitle_file_extensions = {'.srt'}
+    video_file_extensions = {'.mkv', '.avi', '.mpeg', '.mpg',
+                             '.mov', '.flv', '.sfw', '.qt',
+                             '.mp4', '.wmv'}
 
-    path, next_episode = get_path(path, folder_pattern, exclude, ignored_file_extensions, next_episode, 0)
+    path, next_episode = get_path(path, folder_pattern, exclude, video_file_extensions, next_episode, 0)
 
     if should_ask:
         response = pymsgbox.confirm('Are you sure you want to play the next episode of %s' % name)
