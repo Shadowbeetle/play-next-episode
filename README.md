@@ -2,8 +2,7 @@ This little script will play your favorite series episode after episode using vl
 
 # Setup
 
-Place the script files wherever you want. Only make sure you have a link to the setup file in a convenient place. 
-The setup is a simple yaml file.
+Place the script files wherever you want. Create a file named 'setup.yml' in the script's directory and make sure you have a link to the setup file in a convenient place. 
 
 ## Necessary fields
 
@@ -16,8 +15,7 @@ where you have all your series by seasons. You are watching a series named "Fair
 if you have the first season as /home/your-user/series/wtf.fairytales.of.phnom.penh.s1.720p.HDTV or if you have each episode in a 
 different folder the script will find it, and log which episodes have been played in the setup file.
 
-You can use vlc's next button to jump to the next episode as well (previous only works if each episode in a season is in the same 
-folder)
+You can use vlc's next button to jump to the next episode as well if each episode in a season is in the same folder.
 
 ## Other  fields
 
@@ -37,3 +35,8 @@ default settings are applied. External subtitle files are not taken into account
 **exclude**: these folders will be omitted while searching for the next episode
 
 If you have each episode in different folder, you will need to add those you have already watched to "exclude". If you have them organized by seasons, the seasons you have already watched are listed here.
+
+# Contributions
+
+All contributions are welcome. If you are a Windows user and would like to add a bat or cmd file to make calling the script
+easier, go ahaed and create a pull request!
