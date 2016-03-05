@@ -28,7 +28,7 @@ These can be omitted completely
 **sub_language**: if you wish to watch the movie with subtitles
 
 both of them use the 2 letters abbreviatons sush as 'en', 'es', 'de' 'fr', 'hu', 'hr'. If none of them is specified, vlc's 
-default settings are applied.
+default settings are applied. External subtitle files are not taken into account by the script!
 
 ## Controlling what to play next
 
@@ -36,5 +36,4 @@ default settings are applied.
 
 **exclude**: these folders will be omitted while searching for the next episode
 
-If you have each episode in different folder, you will need to add those you have already watched to "exclude". If you have 
-them organized by seasons, the seasons you have already watched are listed here.
+If you have each episode in different folder, you will need to add those you have already watched to "exclude". If you have them organized by seasons, the seasons you have already watched are listed here.
