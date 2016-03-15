@@ -4,7 +4,7 @@ import re
 import sys
 import time
 import yaml
-import pymsgbox
+import tkMessageBox
 import subprocess
 from tail import tail_f
 from utils import get_path, search_for_subtitle_files
@@ -12,7 +12,6 @@ from utils import get_path, search_for_subtitle_files
 
 def main(should_ask=True, play_previous=False):
     log_reading_timeout = 1
-
     with open('./setup.yml') as setup_file:
         setup = yaml.load(setup_file)
 
@@ -38,9 +37,10 @@ def main(should_ask=True, play_previous=False):
     path, next_file, next_episode = get_path(path, folder_pattern, exclude, video_file_extensions, next_episode, 0)
 
     if should_ask:
-        response = pymsgbox.confirm('Are you sure you want to play the next episode of %s' % name)
+        should_play = tkMessageBox.askyesno('Play Next Episode',
+                                            'Are you sure you want to play the next episode of %s' % name)
 
-        if response == 'Cancel':
+        if not should_play:
             sys.exit(0)
 
     setup["next_episode"] = next_episode + 1
