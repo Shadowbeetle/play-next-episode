@@ -33,7 +33,7 @@ def get_path(path, folder_pattern, exclude, accepted_file_extensions, next_episo
 
     try:
         next_file = get_next_file(path_with_folder, accepted_file_extensions, next_episode)
-    except IndexError:
+    except (IndexError, OSError):
         exclude.append(folder)
         return get_path(path, folder_pattern, exclude, accepted_file_extensions, 1, index + 1)
 
