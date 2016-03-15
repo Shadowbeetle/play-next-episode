@@ -5,12 +5,15 @@ import sys
 import time
 import yaml
 import tkMessageBox
+import Tkinter
 import subprocess
 from tail import tail_f
 from utils import get_path, search_for_subtitle_files
 
 
 def main(should_ask=True, play_previous=False):
+    Tkinter.Tk().withdraw()  # to prevent the empty window popping up
+
     log_reading_timeout = 1
     with open('./setup.yml') as setup_file:
         setup = yaml.load(setup_file)
@@ -81,4 +84,5 @@ def main(should_ask=True, play_previous=False):
                 sys.exit(0)
 
 
-main()
+if __name__ == '__main__':
+    main()

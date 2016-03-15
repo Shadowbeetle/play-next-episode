@@ -1,5 +1,6 @@
 import os
 import tkMessageBox
+import Tkinter
 import sys
 
 
@@ -28,6 +29,7 @@ def get_path(path, folder_pattern, exclude, accepted_file_extensions, next_episo
         folder = get_path_with_folder(os.listdir(path), folder_pattern, exclude, index)
         path_with_folder = path + folder
     except IndexError:
+        Tkinter.Tk().withdraw()
         tkMessageBox.showerror(message='Could not find any matching folder in\n\n%s\n\nfor\n\n%s' % (path, folder_pattern.pattern))
         sys.exit(1)
 
